@@ -1,3 +1,4 @@
 /Files/Datasets/Initial/*.csv
 /Files/Datasets/Initial/*.gz
 /Files/Datasets/Processed/*.json
+/Files/SearchEngine_TFIDF/Memory/*.pkl
