@@ -1,0 +1,13 @@
+[itemDetails_RatingCount_gt15_p2.json] & [books_ratingcount_gt15_p2.json] are
+same data.
+
+The difference is in column datatype.
+
+The datatype of columns like isbn, isbn13, publishcation_day, publishcation_month, 
+publishcation_year etc. are in numeric format in the latter one whereas it is in
+string format in the former one.
+
+They have very slight difference in terms of memory consumed in the file system.
+
+They have one more difference.
+In the latter one the missing values are imputated with 0 in the integer columns.   
