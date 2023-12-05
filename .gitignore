@@ -1,5 +1,2 @@
-/Datasets/Initial/*.csv
-/Datasets/Initial/*.gz
-/Datasets/Processed/*.gz
-/Datasets/Processed/*.csv
-/SearchEngine/Development/Memory/*.pkl
+/MemoryMatrix/*.pkl
+/Integrated_Database/
