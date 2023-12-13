@@ -1,2 +1,7 @@
 /MemoryMatrix/*.pkl
 /Integrated_Database/
+/Research_Study/ModuleStudy/BM25_SemanticSearch/*.joblib
+/Research_Study/ModuleStudy/BM25_SemanticSearch/*.h5
+/Research_Study/ModuleStudy/General/*.json
+/Research_Study/ModuleStudy/General/*.gz
+/Research_Study/ModuleStudy/General/*.csv
