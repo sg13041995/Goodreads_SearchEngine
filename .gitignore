@@ -1,4 +1,5 @@
-/MemoryMatrix/*.pkl
+/TFIDF_CosSim_withPandas/MemoryMatrix/*.pkl
+/TFIDF_CosSim_withPandas/MemoryMatrix/*.npz
 /Integrated_Database/
 /CustomModule/
 /Research_Study/ModuleStudy/General/*.json
