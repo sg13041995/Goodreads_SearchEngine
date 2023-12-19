@@ -6,7 +6,8 @@
 
 /withPandas_BM25_gensim/Resources/*.pkl
 
-/Integrated_Database/
+/Application/Database/*.ipynb
+/Application/Database/*.ini
 
 /Research_Study/ModuleStudy/General/*.json
 /Research_Study/ModuleStudy/General/*.gz
