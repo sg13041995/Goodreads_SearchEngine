@@ -1,3 +1,5 @@
+/Application/Backend/BM25_gensim/ModelMemory/
+
 /withPandas_TFIDF_CosSim/MemoryMatrix/*.pkl
 /withPandas_TFIDF_CosSim/MemoryMatrix/*.npz
 
@@ -5,9 +7,6 @@
 /withPandas_BM25_okapi/Exports/*.npz
 
 /withPandas_BM25_gensim/Resources/*.pkl
-
-/Application/Database/*.ipynb
-/Application/Database/*.ini
 
 /Research_Study/ModuleStudy/General/*.json
 /Research_Study/ModuleStudy/General/*.gz
