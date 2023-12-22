@@ -59,12 +59,6 @@ SHOW WARNINGS;
 CREATE UNIQUE INDEX `i_book_id` ON `books`.`book` (`gr_book_id` ASC);
 
 SHOW WARNINGS;
-CREATE UNIQUE INDEX `book_isbn_UNIQUE` ON `books`.`book` (`book_isbn` ASC);
-
-SHOW WARNINGS;
-CREATE UNIQUE INDEX `book_isbn13_UNIQUE` ON `books`.`book` (`book_isbn13` ASC);
-
-SHOW WARNINGS;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
