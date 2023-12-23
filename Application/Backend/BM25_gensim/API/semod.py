@@ -1,30 +1,40 @@
+# ==================================
+# MODULES
+# ==================================
+
+# general
 import numpy as np
 import re
-import pickle
 import json
+
+# data/model import export
+import pickle
+
+# nltk
 from nltk.tokenize import word_tokenize
+
+# gensim
 from gensim.models import TfidfModel
 from gensim.corpora import Dictionary
 from gensim.models import OkapiBM25Model
 from gensim.similarities import SparseMatrixSimilarity
 
+# database MariaDB
 from configparser import ConfigParser
 from mysql.connector import MySQLConnection, Error
 from datetime import datetime
 
+# ==================================
+# FUNCTIONS
+# ==================================
 
+# loading pikle files
 def get_pkl_file(path, mode="rb"):
     with open(path, mode) as file:
         data = pickle.load(file)
         return data
 
-
-def get_trained_bm25(path='./Resources/bm25_index.pkl', mode='rb'):
-    with open(path, mode) as file:
-        bm25_index = pickle.load(file)
-        return bm25_index
-
-
+# retraining the BM25 gensim model with new data
 def retrain_gensim_bm25(tokenized_documents):
     dictionary = Dictionary(tokenized_documents)
     bm25_model = OkapiBM25Model(dictionary=dictionary)
@@ -35,7 +45,7 @@ def retrain_gensim_bm25(tokenized_documents):
 
     return dictionary, bm25_index
 
-
+# getting indices of top n matches
 def bm25_top_hits(query, dictionary, bm25_index, n=50):
     processed = re.sub("\s+", " ", re.sub("[^a-zA-Z0-9 ]", "", query.lower()))
     tokenized_query = word_tokenize(processed)
@@ -53,7 +63,7 @@ def bm25_top_hits(query, dictionary, bm25_index, n=50):
     # increasing all indices values by 1 and then return that list
     return top_n + 1
 
-
+# reading and parsing the database credential file
 def read(filename='config.ini', section='mysql'):
     parser = ConfigParser()
     parser.read(filename)
@@ -68,7 +78,7 @@ def read(filename='config.ini', section='mysql'):
         raise Exception(f'{section} not found in file {filename}')
     return db
 
-
+# connecting with the database
 def connect(creds):
     con = None
     try:
@@ -86,11 +96,11 @@ def connect(creds):
     finally:
         return con, cus
 
-
+# converting a list into string
 def list_to_str(data):
     return str(data).lstrip("[").rstrip("]")
 
-
+# get all the columns from the database with provided indices
 def get_data_by_index(
         indices,
         cs,
@@ -110,7 +120,27 @@ def get_data_by_index(
 
     return books
 
+# get the titles only from the database with provided indices
+def get_titles_by_index(
+        indices,
+        cs,
+        proc_name="sp_get_titles_by_index",
+        proc_args_initial=[0]
+):
 
+    indices_as_str = list_to_str(list(indices))
+
+    procs_args_complete = []
+    procs_args_complete.extend(proc_args_initial)
+    procs_args_complete.extend([indices_as_str])
+
+    cs.callproc(proc_name, procs_args_complete)
+
+    titles = [r.fetchall() for r in cs.stored_results()]
+
+    return titles
+
+# list of tuple to json
 def to_json(data):
     mapping_function = lambda x: {
         "book_id" : x[0],
@@ -142,3 +172,8 @@ def to_json(data):
     json_data = json.dumps(list_of_dicts,indent=4)
 
     return json_data
+
+# list of tuple to list of titles
+def to_list(data):
+    titles = [title_tuple[0] for title_tuple in data]
+    return titles
