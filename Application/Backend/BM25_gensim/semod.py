@@ -135,13 +135,12 @@ def get_titles_by_index(
     procs_args_complete.extend([indices_as_str])
 
     cs.callproc(proc_name, procs_args_complete)
-
     titles = [r.fetchall() for r in cs.stored_results()]
 
     return titles
 
 # list of tuple to json
-def to_json(data):
+def allbooks_to_json(data):
     mapping_function = lambda x: {
         "book_id" : x[0],
         "gr_book_id" : x[1],
@@ -174,6 +173,15 @@ def to_json(data):
     return json_data
 
 # list of tuple to list of titles
-def to_list(data):
-    titles = [title_tuple[0] for title_tuple in data]
-    return titles
+def alltitles_to_json(data):
+    mapping_function = lambda x: {
+        "id" : x[0],
+        "book_title_mod" : x[1][0],
+    }
+
+    # Use map to apply the mapping function to each tuple
+    list_of_dicts = list(map(mapping_function, enumerate(data)))
+
+    json_data = json.dumps(list_of_dicts,indent=4)
+
+    return json_data

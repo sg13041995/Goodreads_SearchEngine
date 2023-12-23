@@ -1,4 +1,5 @@
 /Application/Backend/BM25_gensim/ModelMemory/
+/Application/Frontend/react-search-bar/node_modules/
 
 /withPandas_TFIDF_CosSim/MemoryMatrix/*.pkl
 /withPandas_TFIDF_CosSim/MemoryMatrix/*.npz

@@ -15,7 +15,8 @@ SET error_code = -2;
 SET @q = CONCAT('
 
 SELECT DISTINCT
-        book_title
+        book_title_mod
+
         
   FROM 
         books.book
