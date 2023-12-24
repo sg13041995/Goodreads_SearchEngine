@@ -7,7 +7,7 @@
 /withPandas_BM25_okapi/Exports/*.pkl
 /withPandas_BM25_okapi/Exports/*.npz
 
-/withPandas_BM25_gensim/Resources/*.pkl
+/withPandas_BM25_gensim/Resources/*.joblib
 
 /Research_Study/ModuleStudy/General/*.json
 /Research_Study/ModuleStudy/General/*.gz

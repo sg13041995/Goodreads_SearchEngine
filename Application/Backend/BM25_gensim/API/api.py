@@ -3,8 +3,9 @@ from flask import Flask, request
 from flask_cors import CORS
 
 cn,cs=connect(creds=read(filename="config.ini",section="mysql"))
-dictionary = get_pkl_file(path="../ModelMemory/dictionary.pkl",mode="rb")
-bm25_index = get_pkl_file(path="../ModelMemory/bm25_index.pkl",mode="rb")
+dictionary = joblib.load("../ModelMemory/title_without_series_dictionary.joblib")
+bm25_index = joblib.load("../ModelMemory/title_without_series_matrix.joblib")
+tfidf_model = joblib.load("../ModelMemory/title_without_series_tfidf_bnn.joblib")
 
 
 app = Flask(__name__)
@@ -15,7 +16,11 @@ def get_books():
     # Retrieve query parameters from the request
     query_str = request.args.get('query')
 
-    indices = bm25_top_hits(query=query_str, dictionary=dictionary, bm25_index=bm25_index, n=30)
+    indices = bm25_top_hits(query=query_str,
+                        tfidf_model=tfidf_model,
+                        bm25_index=bm25_index,
+                        dictionary=dictionary, 
+                        n=30)
     data  = get_data_by_index(indices=indices,cs=cs)
    
     # Sample data for GET request
@@ -26,7 +31,11 @@ def get_titles():
     # Retrieve query parameters from the request
     query_str = request.args.get('query','')
 
-    indices = bm25_top_hits(query=query_str, dictionary=dictionary, bm25_index=bm25_index, n=30)
+    indices = bm25_top_hits(query=query_str,
+                        tfidf_model=tfidf_model,
+                        bm25_index=bm25_index,
+                        dictionary=dictionary, 
+                        n=30)
     titles  = get_titles_by_index(indices=indices,cs=cs)
     
     # Sample data for GET request
