@@ -65,13 +65,16 @@ def bm25_top_hits(query, tfidf_model, bm25_index, dictionary, n=50):
     tfidf_query = tfidf_model[dictionary.doc2bow(tokenized_query)]
     similarities = bm25_index[tfidf_query]
 
-    # getting document indices based on BM25 top scores in descending order
-    top_n = np.argsort(similarities, axis=0)[::-1]
+    if (similarities.max() > 0):
+        # getting document indices based on BM25 top scores in descending order
+        top_n = np.argsort(similarities, axis=0)[::-1]
 
-    top_n = top_n[:n]
+        top_n = top_n[:n]
 
-    # increasing all indices values by 1 and then return that list
-    return top_n + 1
+        # increasing all indices values by 1 and then return that list
+        return top_n + 1
+    else:
+        return None
 
 # reading and parsing the database credential file
 
@@ -125,7 +128,6 @@ def get_data_by_index(
         proc_name="sp_get_books_by_index",
         proc_args_initial=[0]
 ):
-
     indices_as_str = list_to_str(list(indices))
 
     procs_args_complete = []
@@ -147,7 +149,6 @@ def get_titles_by_index(
         proc_name="sp_get_titles_by_index",
         proc_args_initial=[0]
 ):
-
     indices_as_str = list_to_str(list(indices))
 
     procs_args_complete = []
@@ -162,50 +163,56 @@ def get_titles_by_index(
 # list of tuple to json
 
 
-def allbooks_to_json(data):
-    def mapping_function(x): return {
-        "book_id": x[0],
-        "gr_book_id": x[1],
-        "title_without_series": x[2],
-        "mod_title": x[3],
-        "title": x[4],
-        "mod_title_without_series": x[5],
-        "description": x[6],
-        "ratings_count": x[7],
-        "average_rating": x[8],
-        "num_pages": x[9],
-        "publication_day": x[10],
-        "publication_month": x[11],
-        "publication_year": x[12],
-        "isbn": x[13],
-        "isbn13": x[14],
-        "publisher": x[15],
-        "country_code": x[16],
-        "language_code": x[17],
-        "url": x[18],
-        "image_url": x[19],
-        "link": x[20]
-    }
+def allbooks_to_json(data=None):
+    if (data is not None):
+        def mapping_function(x): return {
+            "book_id": x[0],
+            "gr_book_id": x[1],
+            "title_without_series": x[2],
+            "mod_title": x[3],
+            "title": x[4],
+            "mod_title_without_series": x[5],
+            "description": x[6],
+            "ratings_count": x[7],
+            "average_rating": x[8],
+            "num_pages": x[9],
+            "publication_day": x[10],
+            "publication_month": x[11],
+            "publication_year": x[12],
+            "isbn": x[13],
+            "isbn13": x[14],
+            "publisher": x[15],
+            "country_code": x[16],
+            "language_code": x[17],
+            "url": x[18],
+            "image_url": x[19],
+            "link": x[20]
+        }
 
-    # Use map to apply the mapping function to each tuple
-    list_of_dicts = list(map(mapping_function, data))
+        # Use map to apply the mapping function to each tuple
+        list_of_dicts = list(map(mapping_function, data))
 
-    json_data = json.dumps(list_of_dicts, indent=4)
+        json_data = json.dumps(list_of_dicts, indent=4)
 
-    return json_data
+        return json_data
+    else:
+        return json.dumps([])
 
 # list of tuple to list of titles
 
 
-def alltitles_to_json(data):
-    def mapping_function(x): return {
-        "id": x[0],
-        "book_title_mod": x[1][0],
-    }
+def alltitles_to_json(data=None):
+    if (data is not None):
+        def mapping_function(x): return {
+            "id": x[0],
+            "book_title_mod": x[1][0],
+        }
 
-    # Use map to apply the mapping function to each tuple
-    list_of_dicts = list(map(mapping_function, enumerate(data)))
+        # Use map to apply the mapping function to each tuple
+        list_of_dicts = list(map(mapping_function, enumerate(data)))
 
-    json_data = json.dumps(list_of_dicts, indent=4)
+        json_data = json.dumps(list_of_dicts, indent=4)
 
-    return json_data
+        return json_data
+    else:
+        return json.dumps([])
