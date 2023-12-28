@@ -204,8 +204,10 @@ def allbooks_to_json(data=None):
 def alltitles_to_json(data=None):
     if (data is not None):
         def mapping_function(x): return {
-            "id": x[0],
-            "book_title_mod": x[1][0],
+            "title": x[1][0],
+            "description": x[1][0],
+            "image": x[1][0],
+            "price": str(x[0]),
         }
 
         # Use map to apply the mapping function to each tuple

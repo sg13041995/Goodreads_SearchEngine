@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
-import faker from 'faker';
 import { Search, Grid, Header, Segment } from 'semantic-ui-react';
-
-const source = _.times(5, () => ({
-  title: faker.company.companyName(),
-  description: faker.company.catchPhrase(),
-  image: faker.internet.avatar(),
-  price: faker.finance.amount(0, 100, 2, '$'),
-}));
 
 const initialState = { isLoading: false, results: [], value: '' };
 
@@ -18,20 +9,42 @@ const SearchedBooks = () => {
   const handleResultSelect = (e, { result }) => setState({ value: result.title });
 
   const handleSearchChange = (e, { value }) => {
-    setState({ isLoading: true, value });
-
-    setTimeout(() => {
-      if (value.length < 1) return setState(initialState);
-
-      const re = new RegExp(_.escapeRegExp(value), 'i');
-      const isMatch = (result) => re.test(result.title);
-
-      setState({
-        isLoading: false,
-        results: _.filter(source, isMatch),
-      });
-    }, 300);
+    setState((prev) => ({ ...prev, isLoading: true, value }));
   };
+
+  useEffect(() => {
+    let timeoutId;
+
+    const search = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/api/uniquetitle?query=${state.value}`);
+        const data = await response.json();
+
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+          results: data, // Assuming your API response has a 'results' property
+        }));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Cleanup function to clear the timeout
+    const cleanup = () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+
+    // Debounce the search by delaying it for 500ms
+    timeoutId = setTimeout(() => {
+      cleanup();
+      search();
+    }, 500);
+
+    return cleanup;
+  }, [state.value]);
 
   return (
     <Grid>
@@ -40,24 +53,10 @@ const SearchedBooks = () => {
           fluid
           loading={state.isLoading}
           onResultSelect={handleResultSelect}
-          onSearchChange={_.debounce(handleSearchChange, 500, {
-            leading: true,
-          })}
+          onSearchChange={(e, { value }) => handleSearchChange(e, { value })}
           results={state.results}
           value={state.value}
         />
-      </Grid.Column>
-      <Grid.Column width={10}>
-        <Segment>
-          <Header>State</Header>
-          <pre style={{ overflowX: 'auto' }}>
-            {JSON.stringify(state, null, 2)}
-          </pre>
-          <Header>Options</Header>
-          <pre style={{ overflowX: 'auto' }}>
-            {JSON.stringify(source, null, 2)}
-          </pre>
-        </Segment>
       </Grid.Column>
     </Grid>
   );
