@@ -1,24 +1,19 @@
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-
-import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
-import { SearchBar } from "./components/SearchBar";
-import { SearchResultsList } from "./components/SearchResultsList";
+import NavBar from "./Components/Navbar/NavBar";
+
+import Home from "./Pages/Home";
+import SearchedBooks from "./Pages/SearchedBooks";
 
 function App() {
-  const [results, setResults] = useState([]);
   return (
     <>
-      <div className="App">
-        <div className="search-bar-container">
-          <SearchBar setResults={setResults} />
-          {results && results.length > 0 && (
-            <SearchResultsList results={results} />
-          )}
-        </div>
-      </div>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/searched-books" element={<SearchedBooks />} />
+      </Routes>
     </>
   );
 }
