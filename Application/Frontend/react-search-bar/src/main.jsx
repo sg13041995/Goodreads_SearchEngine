@@ -5,8 +5,9 @@ import ReactDOM from "react-dom/client";
 // react router imports
 import { BrowserRouter } from "react-router-dom";
 
-// bootstrap css import
+// bootstrap, semantic-ui css import
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'semantic-ui-css/semantic.min.css'
 
 // react components import
 import App from "./App.jsx";
