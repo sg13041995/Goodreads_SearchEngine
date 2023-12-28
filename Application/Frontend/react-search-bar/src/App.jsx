@@ -1,10 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
 
 import NavBar from "./Components/Navbar/NavBar";
 
 import Home from "./Pages/Home";
-import SearchedBooks from "./Pages/SearchedBooks";
+import SearchResults from "./Pages/SearchResults";
+import TopBooks from "./Pages/TopBooks";
+import NoMatch from "./Components/NoMatch/NoMatch"
+
+import "./App.css";
 
 function App() {
   return (
@@ -12,7 +15,9 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/searched-books" element={<SearchedBooks />} />
+        <Route path="/search-results" element={<SearchResults />} />
+        <Route path="/top-books" element={<TopBooks />} />
+        <Route path="*" element={<NoMatch />} />
       </Routes>
     </>
   );

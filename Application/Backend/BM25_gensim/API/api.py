@@ -17,15 +17,15 @@ app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 
 # Define an API endpoint for retrieving all book data based on a query
-@app.route('/api/allcol', methods=['GET'])
-def get_books():
+@app.route('/api/books-all', methods=['GET'])
+def books_all():
     # Retrieve query parameters from the request
     query_str = request.args.get('query')
 
     # Strip the spaces and check the length
     # If the length is 0, return an empty list as JSON
     if len(query_str.strip()) == 0:
-        return allbooks_to_json(data=None)
+        return book_alldetails_tojson(data=None)
     else:
         # Get indices of top book recommendations using BM25 algorithm
         indices = bm25_top_hits(query=query_str,
@@ -36,22 +36,25 @@ def get_books():
 
         # If no indices are found, return an empty list as JSON
         if indices is None:
-            return allbooks_to_json(data=None)
+            return book_alldetails_tojson(data=None)
         else:
             # Retrieve book data based on the indices
-            data = get_data_by_index(indices=indices, cs=cs)
-            return allbooks_to_json(data[0])
+            data = book_alldetails_byindex(indices=indices, cs=cs)
+            return book_alldetails_tojson(data[0])
+
+
+
 
 # Define an API endpoint for retrieving unique book titles based on a query
-@app.route('/api/uniquetitle', methods=['GET'])
-def get_titles():
+@app.route('/api/titles-all', methods=['GET'])
+def titles_all():
     # Retrieve query parameters from the request
     query_str = request.args.get('query', '')
 
     # Strip the spaces and check the length
     # If the length is 0, return an empty list as JSON
     if len(query_str.strip()) == 0:
-        return allbooks_to_json(None)
+        return book_onlytitles_tojson(None)
     else:
         # Get indices of top book recommendations using BM25 algorithm
         indices = bm25_top_hits(query=query_str,
@@ -61,11 +64,39 @@ def get_titles():
                                 n=30)
         # If no indices are found, return an empty list as JSON
         if indices is None:
-            return allbooks_to_json(data=None)
+            return book_onlytitles_tojson(data=None)
         else:
             # Retrieve book titles based on the indices
-            titles = get_titles_by_index(indices=indices, cs=cs)
-            return alltitles_to_json(titles[0])
+            titles = book_onlytitles_byindex(indices=indices, cs=cs)
+            return book_onlytitles_tojson(titles[0])
+
+
+
+
+# Define an API endpoint for retrieving unique book titles based on a query
+@app.route('/api/books-search', methods=['GET'])
+def books_search():
+    # Retrieve query parameters from the request
+    query_str = request.args.get('query', '')
+
+    # Strip the spaces and check the length
+    # If the length is 0, return an empty list as JSON
+    if len(query_str.strip()) == 0:
+        return book_searchdetails_tojson(None)
+    else:
+        # Get indices of top book recommendations using BM25 algorithm
+        indices = bm25_top_hits(query=query_str,
+                                tfidf_model=tfidf_model,
+                                bm25_index=bm25_index,
+                                dictionary=dictionary,
+                                n=30)
+        # If no indices are found, return an empty list as JSON
+        if indices is None:
+            return book_searchdetails_tojson(data=None)
+        else:
+            # Retrieve book titles based on the indices
+            titles = book_searchdetails_byindex(indices=indices, cs=cs)
+            return book_searchdetails_tojson(titles[0])
 
 # Run the Flask application in debug mode if the script is executed directly
 if __name__ == '__main__':

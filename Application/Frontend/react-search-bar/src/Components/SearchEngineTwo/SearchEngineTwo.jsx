@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Grid, Header, Segment } from 'semantic-ui-react';
+import { useNavigate } from "react-router-dom";
+import { Search, Grid} from 'semantic-ui-react';
 
 const initialState = { isLoading: false, results: [], value: '' };
 
-const SearchedBooks = () => {
+const SearchEngineTwo = () => {
   const [state, setState] = useState(initialState);
+  const navigate = useNavigate();
 
-  const handleResultSelect = (e, { result }) => setState({ value: result.title });
+  const handleResultSelect = (e, { result }) => {
+    setState({ value: result.title });
+    navigate("/search-results");
+  }
 
   const handleSearchChange = (e, { value }) => {
     setState((prev) => ({ ...prev, isLoading: true, value }));
@@ -17,7 +22,7 @@ const SearchedBooks = () => {
 
     const search = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/uniquetitle?query=${state.value}`);
+        const response = await fetch(`http://127.0.0.1:5000/api/books-search?query=${state.value}`);
         const data = await response.json();
 
         setState((prev) => ({
@@ -62,4 +67,4 @@ const SearchedBooks = () => {
   );
 };
 
-export default SearchedBooks;
+export default SearchEngineTwo;

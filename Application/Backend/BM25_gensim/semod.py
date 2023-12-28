@@ -37,9 +37,8 @@ def get_pkl_file(path, mode="rb"):
         data = pickle.load(file)
         return data
 
+
 # retraining the BM25 gensim model with new data
-
-
 def retrain_gensim_bm25(tokenized_documents):
     dictionary = Dictionary(tokenized_documents)
     bm25_model = OkapiBM25Model(dictionary=dictionary)
@@ -54,9 +53,8 @@ def retrain_gensim_bm25(tokenized_documents):
 
     return dictionary, bm25_index, tfidf_model
 
+
 # getting indices of top n matches
-
-
 def bm25_top_hits(query, tfidf_model, bm25_index, dictionary, n=50):
     processed = re.sub("\s+", " ", re.sub("[^a-zA-Z0-9 ]", "", query.lower()))
     tokenized_query = word_tokenize(processed)
@@ -76,9 +74,8 @@ def bm25_top_hits(query, tfidf_model, bm25_index, dictionary, n=50):
     else:
         return None
 
+
 # reading and parsing the database credential file
-
-
 def read(filename='config.ini', section='mysql'):
     parser = ConfigParser()
     parser.read(filename)
@@ -93,9 +90,8 @@ def read(filename='config.ini', section='mysql'):
         raise Exception(f'{section} not found in file {filename}')
     return db
 
+
 # connecting with the database
-
-
 def connect(creds):
     con = None
     try:
@@ -113,16 +109,14 @@ def connect(creds):
     finally:
         return con, cus
 
+
 # converting a list into string
-
-
 def list_to_str(data):
     return str(data).lstrip("[").rstrip("]")
 
+
 # get all the columns from the database with provided indices
-
-
-def get_data_by_index(
+def book_alldetails_byindex(
         indices,
         cs,
         proc_name="sp_get_books_by_index",
@@ -140,10 +134,9 @@ def get_data_by_index(
 
     return books
 
+
 # get the titles only from the database with provided indices
-
-
-def get_titles_by_index(
+def book_onlytitles_byindex(
         indices,
         cs,
         proc_name="sp_get_titles_by_index",
@@ -160,10 +153,30 @@ def get_titles_by_index(
 
     return titles
 
-# list of tuple to json
 
 
-def allbooks_to_json(data=None):
+
+# get specific details for search engine from the database with provided indices
+def book_searchdetails_byindex(
+        indices,
+        cs,
+        proc_name="sp_get_books_by_index_list",
+        proc_args_initial=[0]
+):
+    indices_as_str = list_to_str(list(indices))
+
+    procs_args_complete = []
+    procs_args_complete.extend(proc_args_initial)
+    procs_args_complete.extend([indices_as_str])
+
+    cs.callproc(proc_name, procs_args_complete)
+    titles = [r.fetchall() for r in cs.stored_results()]
+
+    return titles
+
+
+# book_alldetails_byindex to json
+def book_alldetails_tojson(data=None):
     if (data is not None):
         def mapping_function(x): return {
             "book_id": x[0],
@@ -198,10 +211,9 @@ def allbooks_to_json(data=None):
     else:
         return json.dumps([])
 
-# list of tuple to list of titles
 
-
-def alltitles_to_json(data=None):
+# book_onlytitles_byindex to json
+def book_onlytitles_tojson(data=None):
     if (data is not None):
         def mapping_function(x): return {
             "id": x[0],
@@ -210,6 +222,27 @@ def alltitles_to_json(data=None):
 
         # Use map to apply the mapping function to each tuple
         list_of_dicts = list(map(mapping_function, enumerate(data)))
+
+        json_data = json.dumps(list_of_dicts, indent=4)
+
+        return json_data
+    else:
+        return json.dumps([])
+
+
+
+# book_alldetails_byindex to json
+def book_searchdetails_tojson(data=None):
+    if (data is not None):
+        def mapping_function(x): return {
+            "title": x[0],
+            "description": x[1],
+            "image": x[4],
+            "price": str(x[3]),
+        }
+
+        # Use map to apply the mapping function to each tuple
+        list_of_dicts = list(map(mapping_function, data))
 
         json_data = json.dumps(list_of_dicts, indent=4)
 
