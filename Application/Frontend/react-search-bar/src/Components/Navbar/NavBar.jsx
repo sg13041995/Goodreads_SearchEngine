@@ -8,7 +8,7 @@ import Navbar from "react-bootstrap/Navbar";
 
 export default function NavBar() {
   return (
-    <>
+    <div>
       {/* bootstrap navbar */}
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
@@ -30,6 +30,6 @@ export default function NavBar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
+    </ div>
   );
 }

@@ -96,6 +96,8 @@ def books_search():
         else:
             # Retrieve book titles based on the indices
             titles = book_searchdetails_byindex(indices=indices, cs=cs)
+            if (len(titles[0]) >= 6):
+                titles[0] = titles[0][:6]
             return book_searchdetails_tojson(titles[0])
 
 # Run the Flask application in debug mode if the script is executed directly

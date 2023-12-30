@@ -1,10 +1,12 @@
 import React from "react";
-import { Grid, Image } from "semantic-ui-react";
-import { Card, Icon } from "semantic-ui-react";
+import { Grid, Image, Card, Icon } from "semantic-ui-react";
+
+import CardDataSource from "../Components/SearchResultStructure/CardDataSource";
 
 export default function SearchResults() {
   return (
     <div>
+      <CardDataSource />
       <Grid container stackable columns={5}>
         <Grid.Row>
           <Grid.Column>

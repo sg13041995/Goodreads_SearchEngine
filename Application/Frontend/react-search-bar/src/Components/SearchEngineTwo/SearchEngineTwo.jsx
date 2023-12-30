@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Grid} from 'semantic-ui-react';
+import { Search, Grid } from "semantic-ui-react";
 
-const initialState = { isLoading: false, results: [], value: '' };
+const initialState = { isLoading: false, results: [], value: "" };
 
 const SearchEngineTwo = () => {
   const [state, setState] = useState(initialState);
@@ -11,7 +11,7 @@ const SearchEngineTwo = () => {
   const handleResultSelect = (e, { result }) => {
     setState({ value: result.title });
     navigate("/search-results");
-  }
+  };
 
   const handleSearchChange = (e, { value }) => {
     setState((prev) => ({ ...prev, isLoading: true, value }));
@@ -22,7 +22,9 @@ const SearchEngineTwo = () => {
 
     const search = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/books-search?query=${state.value}`);
+        const response = await fetch(
+          `http://127.0.0.1:5000/api/books-search?query=${state.value}`
+        );
         const data = await response.json();
 
         setState((prev) => ({
@@ -31,7 +33,7 @@ const SearchEngineTwo = () => {
           results: data, // Assuming your API response has a 'results' property
         }));
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -52,18 +54,16 @@ const SearchEngineTwo = () => {
   }, [state.value]);
 
   return (
-    <Grid>
-      <Grid.Column width={6}>
-        <Search
-          fluid
-          loading={state.isLoading}
-          onResultSelect={handleResultSelect}
-          onSearchChange={(e, { value }) => handleSearchChange(e, { value })}
-          results={state.results}
-          value={state.value}
-        />
-      </Grid.Column>
-    </Grid>
+    <div>
+      <Search
+        fluid
+        loading={state.isLoading}
+        onResultSelect={handleResultSelect}
+        onSearchChange={(e, { value }) => handleSearchChange(e, { value })}
+        results={state.results}
+        value={state.value}
+      />
+    </ div>
   );
 };
 

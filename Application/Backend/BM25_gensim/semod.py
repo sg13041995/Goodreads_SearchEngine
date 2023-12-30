@@ -155,12 +155,11 @@ def book_onlytitles_byindex(
 
 
 
-
 # get specific details for search engine from the database with provided indices
 def book_searchdetails_byindex(
         indices,
         cs,
-        proc_name="sp_get_books_by_index_list",
+        proc_name="sp_get_books_by_index_search",
         proc_args_initial=[0]
 ):
     indices_as_str = list_to_str(list(indices))
@@ -173,6 +172,7 @@ def book_searchdetails_byindex(
     titles = [r.fetchall() for r in cs.stored_results()]
 
     return titles
+
 
 
 # book_alldetails_byindex to json
