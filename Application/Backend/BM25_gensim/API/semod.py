@@ -55,8 +55,16 @@ def retrain_gensim_bm25(tokenized_documents):
 
 
 # getting indices of top n matches
-def bm25_top_hits(query, tfidf_model, bm25_index, dictionary, n=50):
+def bm25_top_hits(query: str,
+                  tfidf_model: TfidfModel,
+                  bm25_index: SparseMatrixSimilarity,
+                  dictionary: Dictionary,
+                  n=50):
+    
+    # initial cleaning of the query string
+    # lower case, remove unwanted charactrers and space
     processed = re.sub("\s+", " ", re.sub("[^a-zA-Z0-9 ]", "", query.lower()))
+    # tokenizing the query string
     tokenized_query = word_tokenize(processed)
 
     # Enforce binary weighting of queries
@@ -65,12 +73,16 @@ def bm25_top_hits(query, tfidf_model, bm25_index, dictionary, n=50):
 
     if (similarities.max() > 0):
         # getting document indices based on BM25 top scores in descending order
-        top_n = np.argsort(similarities, axis=0)[::-1]
+        top_n_index = np.argsort(similarities, axis=0)[::-1]
+        
+        top_n_index = top_n_index[:n]
+        top_n_scores = similarities[top_n_index]
 
-        top_n = top_n[:n]
+        filtered_index = np.where(top_n_scores != 0)
+        final_index = top_n_index[filtered_index]
 
         # increasing all indices values by 1 and then return that list
-        return top_n + 1
+        return final_index + 1
     else:
         return None
 

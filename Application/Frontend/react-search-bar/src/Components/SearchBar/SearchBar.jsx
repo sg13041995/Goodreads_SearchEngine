@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Search, Grid } from "semantic-ui-react";
+import { Search } from "semantic-ui-react";
 
-const initialState = { isLoading: false, results: [], value: "" };
+const initialState = {
+  isLoading: false,
+  results: [],
+  value: "",
+};
 
-const SearchEngineTwo = () => {
+const SearchBar = () => {
   const [state, setState] = useState(initialState);
-  const navigate = useNavigate();
 
   const handleResultSelect = (e, { result }) => {
     setState({ value: result.title });
-    navigate("/search-results");
+    setState({ isSelected: true, selection: result.title });
   };
 
   const handleSearchChange = (e, { value }) => {
@@ -55,16 +57,16 @@ const SearchEngineTwo = () => {
 
   return (
     <div>
-      <Search
-        fluid
-        loading={state.isLoading}
-        onResultSelect={handleResultSelect}
-        onSearchChange={(e, { value }) => handleSearchChange(e, { value })}
-        results={state.results}
-        value={state.value}
-      />
-    </ div>
+        <Search
+          fluid
+          loading={state.isLoading}
+          onResultSelect={handleResultSelect}
+          onSearchChange={(e, { value }) => handleSearchChange(e, { value })}
+          results={state.results}
+          value={state.value}
+        />
+    </div>
   );
 };
 
-export default SearchEngineTwo;
+export default SearchBar;
