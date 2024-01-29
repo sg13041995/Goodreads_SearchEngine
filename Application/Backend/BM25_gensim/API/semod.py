@@ -29,16 +29,14 @@ from datetime import datetime
 # FUNCTIONS
 # ==================================
 
-# loading pikle files
-
-
+# read pikle files
 def get_pkl_file(path, mode="rb"):
     with open(path, mode) as file:
         data = pickle.load(file)
         return data
 
 
-# retraining the BM25 gensim model with new data
+# retrain the BM25 gensim model with new data
 def retrain_gensim_bm25(tokenized_documents):
     dictionary = Dictionary(tokenized_documents)
     bm25_model = OkapiBM25Model(dictionary=dictionary)
