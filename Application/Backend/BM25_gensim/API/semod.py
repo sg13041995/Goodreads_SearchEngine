@@ -30,7 +30,7 @@ from datetime import datetime
 # ==================================
 
 # read pikle files
-def get_pkl_file(path, mode="rb"):
+def read_pkl(path, mode="rb"):
     with open(path, mode) as file:
         data = pickle.load(file)
         return data
