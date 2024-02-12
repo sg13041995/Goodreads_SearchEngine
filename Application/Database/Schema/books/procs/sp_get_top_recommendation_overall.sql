@@ -13,7 +13,7 @@ BEGIN
 
     -- Create temporary table
     CREATE TEMPORARY TABLE sort_by_rating_count AS
-        SELECT gr_book_id, book_title, book_ratings_count, book_average_rating
+        SELECT book_id, gr_book_id, book_title, book_ratings_count, book_average_rating
         FROM book
         ORDER BY book_ratings_count DESC
         LIMIT 100;
