@@ -1,12 +1,12 @@
 /WebApplication/Backend/BM25_gensim/ModelMemory/
 /WebApplication/Frontend/react-search-bar/node_modules/
 
-/Research/TFIDF_CosineSimilarity/Artifacts/*.pkl
-/Research/TFIDF_CosineSimilarity/Artifacts/*.npz
+/Model_01_TFIDF_CosineSimilarity/Artifacts/*.pkl
+/Model_01_TFIDF_CosineSimilarity/Artifacts/*.npz
 
-/Research/BM25_Okapi/Artifacts/*.pkl
-/Research/BM25_Okapi/Artifacts/*.npz
+/Model_02_BM25_Okapi/Artifacts/*.pkl
+/Model_02_RBM25_Okapi/Artifacts/*.npz
 
-/Research/BM25_TFIDF_Gensim/Artifacts/*.joblib
+/Model_03_BM25_TFIDF_Gensim/Artifacts/*.joblib
 
 /Study/
