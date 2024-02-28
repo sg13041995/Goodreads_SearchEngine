@@ -1,21 +1,12 @@
-/Application/Backend/BM25_gensim/ModelMemory/
-/Application/Frontend/react-search-bar/node_modules/
+/WebApplication/Backend/BM25_gensim/ModelMemory/
+/WebApplication/Frontend/react-search-bar/node_modules/
 
-/withPandas_TFIDF_CosSim/MemoryMatrix/*.pkl
-/withPandas_TFIDF_CosSim/MemoryMatrix/*.npz
+/Research/TFIDF_CosineSimilarity/Artifacts/*.pkl
+/Research/TFIDF_CosineSimilarity/Artifacts/*.npz
 
-/withPandas_BM25_okapi/Exports/*.pkl
-/withPandas_BM25_okapi/Exports/*.npz
+/Research/BM25_Okapi/Artifacts/*.pkl
+/Research/BM25_Okapi/Artifacts/*.npz
 
-/withPandas_BM25_gensim/Resources/*.joblib
+/Research/BM25_TFIDF_Gensim/Artifacts/*.joblib
 
-/Research_Study/ModuleStudy/General/*.json
-/Research_Study/ModuleStudy/General/*.gz
-/Research_Study/ModuleStudy/General/*.csv
-
-/Research_Study/ModuleStudy/BM25_SemanticSearch_PartialData/*.joblib
-/Research_Study/ModuleStudy/BM25_SemanticSearch_PartialData/*.h5
-
-/Research_Study/ModuleStudy/BM25_SemanticSearch_CompleteData/*.joblib
-/Research_Study/ModuleStudy/BM25_SemanticSearch_CompleteData/*.h5
-/Research_Study/ModuleStudy/BM25_SemanticSearch_CompleteData/*.json
+/Study/
