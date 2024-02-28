@@ -1,0 +1,21 @@
+.topnav {
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  color: #f2f2f2;
+  text-align: center;
+  padding: 5px 10px;
+  font-size: 15px;
+  border-bottom: none;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.topnav a:hover {
+  border-bottom: 1px solid red;
+}
+
+.topnav a.active {
+  border-bottom: 1px solid red;
+}
